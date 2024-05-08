@@ -14,8 +14,8 @@ public:
     };
     static const std::vector< std::string > ACCESS_MODIFIERS;
 public:
-    explicit ClassUnit( const std::string& name ) : m_name( name ) {
-        m_fields.resize( ACCESS_MODIFIERS.size() );
+    explicit ClassUnit( const std::string& name ) : m_name( name ) {// имя myclass
+        m_fields.resize( ACCESS_MODIFIERS.size() );//предается пустой вектор
     }
     void add( const std::shared_ptr< Unit >& unit, Flags flags ) {
         int accessModifier = PRIVATE;
