@@ -14,3 +14,11 @@ AbstractFactory/methodunit.cpp
 AbstractFactory/printoperatorunit.cpp
 
 AbstractFactory/unit.cpp
+
+AbstractFactory/classjava.cpp
+
+AbstractFactory/methodjava.cpp
+
+AbstractFactory/printoperatorjava.cpp
+
+AbstractFactory/printoperatorunitcsharp.cpp

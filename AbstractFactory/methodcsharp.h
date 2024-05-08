@@ -27,7 +27,6 @@ public:
     {
         std::string result = generateShift( level );
 
-        qDebug() << "compile rabotaet";
         switch (m_flags) {
         case PUBLIC:
             result += "public ";
@@ -52,7 +51,7 @@ public:
             break;
         }
 
-        result += m_returnType + m_name + "(){\n";
+        result += m_returnType + " " + m_name + "(){\n";
 
         for( const auto& b : m_body ) {
             result += b->compile( level + 1 );
