@@ -1,46 +1,33 @@
 #ifndef CLASSCSHARP_H
 #define CLASSCSHARP_H
 #include <string>
-#include <unit.h>
+#include <classunit.h>
 #include <vector>
 
-class ClassCSharp : public Unit
+class ClassCSharp : public ClassUnit
 {
 public:
     ClassCSharp();
-    enum AccessModifier {
-        PUBLIC = 1,
-        FILE,
-        INTERNAL,
-        PRIVATE,
-        PROTECTED,
-        PRIVATE_PROTECTED,
-        PROTECTED_INTERNAL
-    };
-    static const std::vector< std::string > ACCESS_MODIFIERS;
-public:
-    explicit ClassCSharp( const std::string& name, Flags flags = 0 ) : m_name( name ), m_flags( flags )
-    {
 
-    }
-    void add( const std::shared_ptr< Unit >& unit, Flags flags = 0 )
+public:
+    explicit ClassCSharp( const std::string& name, Flags modifier = 0 )
     {
-        m_fields.push_back( unit );
+        m_name = name;
+        m_modifier =  modifier;
     }
 
     std::string compile( unsigned int level = 0 ) const
     {
         std::string result = generateShift( level );
-        switch (m_flags) {
-        case PUBLIC:
+
+        if(m_modifier & PUBLIC)
             result += "public ";
-            break;
-        case FILE:
+        else
+        if(m_modifier & FILE)
             result += "file ";
-            break;
-        case INTERNAL:
+        else
+        if(m_modifier & INTERNAL)
             result += "internal ";
-        }
 
         result += "class " + m_name  + " {\n";
 
@@ -52,16 +39,7 @@ public:
         return result;
     }
 
-
-private:
-    std::string m_name;
-    using Fields = std::vector< std::shared_ptr< Unit > >;
-    //std::vector< Fields > m_fields;
-    Flags m_flags;
-    std::vector< std::shared_ptr< Unit > > m_fields;
-
 };
-const std::vector< std::string > ClassCSharp::ACCESS_MODIFIERS = { "public",
-                                                              "file", "internal" };
+
 
 #endif // CLASSCSHARP_H

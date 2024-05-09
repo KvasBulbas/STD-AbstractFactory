@@ -1,67 +1,41 @@
 #ifndef METHODJAVA_H
 #define METHODJAVA_H
-#include "unit.h"
+#include "methodunit.h"
 #include <vector>
 #include <QDebug>
 
-class MethodJAVA : public Unit
+class MethodJAVA : public MethodUnit
 {
-public:
-    enum AccessModifier {
-        PUBLIC = 1,
-        PROTECTED,
-        PRIVATE
-    };
-
-    enum NonAccessModifier {
-        FINAL = 1,
-        ABSTRACT
-    };
-
-    enum StaticModifier{
-        STATIC = 1
-    };
-
 
 public:
-    MethodJAVA( const std::string& name, const std::string& returnType,
-                 Flags flags1 = 0 , Flags flags2 = 0, Flags flags3 = 0) :
-        m_name( name ), m_returnType( returnType ),
-                m_flags1( flags1 ), m_flags2( flags2 ), m_flags3( flags3 ) { }
-
-    void add( const std::shared_ptr< Unit >& unit)
+    MethodJAVA( const std::string& name, const std::string& returnType, Flags modifier )
     {
-        m_body.push_back( unit );
+        m_name = name;
+        m_returnType = returnType;
+        m_modifier = modifier;
     }
-
 
     std::string compile( unsigned int level = 0 ) const
     {
         std::string result = generateShift( level );
 
-        switch (m_flags1) {
-        case PUBLIC:
+        if(m_modifier & PUBLIC)
             result += "public ";
-            break;
-        case PROTECTED:
-            result += "protected ";
-            break;
-        case PRIVATE:
-            result += "private ";
-        }
+        else
+        if(m_modifier & FILE)
+            result += "file ";
+        else
+        if(m_modifier & INTERNAL)
+            result += "internal ";
 
-        if(m_flags3 == STATIC)
+        if(m_modifier & STATIC)
             result += "static ";
 
-
-        switch (m_flags2) {
-        case FINAL:
+        if(m_modifier & FINAL)
             result += "final ";
-            break;
-        case ABSTRACT:
+        else
+        if(m_modifier & ABSTRACT)
             result += "abstract ";
-        }
-
 
         result += m_returnType + " " + m_name + "(){\n";
 
@@ -74,13 +48,6 @@ public:
     }
 
 
-private:
-    std::string m_name;
-    std::string m_returnType;
-    Flags m_flags1;
-    Flags m_flags2;
-    Flags m_flags3;
-    std::vector< std::shared_ptr< Unit > > m_body;
 };
 
 #endif // METHODJAVA_H

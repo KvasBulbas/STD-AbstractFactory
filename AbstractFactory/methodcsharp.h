@@ -1,55 +1,43 @@
 #ifndef METHODCSHARP_H
 #define METHODCSHARP_H
-#include "unit.h"
+#include "methodunit.h"
 #include <vector>
 #include <QDebug>
 
-class MethodCSharp : public Unit
+class MethodCSharp : public MethodUnit
 {
 public:
-    enum AccessModifier {
-        PUBLIC,
-        FILE,
-        INTERNAL,
-        PRIVATE,
-        PROTECTED,
-        PRIVATE_PROTECTED,
-        PROTECTED_INTERNAL
-    };
-public:
-    MethodCSharp( const std::string& name, const std::string& returnType, Flags flags ) :
-        m_name( name ), m_returnType( returnType ), m_flags( flags ) { }
-    void add( const std::shared_ptr< Unit >& unit, Flags /* flags */ = 0 )
+    MethodCSharp( const std::string& name, const std::string& returnType, Flags modifier )
     {
-        m_body.push_back( unit );
+        m_name = name;
+        m_returnType = returnType;
+        m_modifier = modifier;
     }
+
     std::string compile( unsigned int level = 0 ) const
     {
         std::string result = generateShift( level );
 
-        switch (m_flags) {
-        case PUBLIC:
+        if(m_modifier & PUBLIC)
             result += "public ";
-            break;
-        case PROTECTED:
+        else
+        if(m_modifier & PROTECTED)
             result += "protected ";
-            break;
-        case FILE:
-            result += "file ";
-            break;
-        case INTERNAL:
+        else
+        if(m_modifier & FILE)
+            result += "public ";
+        else
+        if(m_modifier & INTERNAL)
             result += "internal ";
-            break;
-        case PRIVATE:
+        else
+        if(m_modifier & PRIVATE)
             result += "private ";
-            break;
-        case PRIVATE_PROTECTED:
+        else
+        if(m_modifier & PRIVATE_PROTECTED)
             result += "private protected ";
-            break;
-        case PROTECTED_INTERNAL:
+        else
+        if(m_modifier & PROTECTED_INTERNAL)
             result += "protected internal ";
-            break;
-        }
 
         result += m_returnType + " " + m_name + "(){\n";
 
@@ -60,11 +48,6 @@ public:
 
         return result;
     }
-private:
-    std::string m_name;
-    std::string m_returnType;
-    Flags m_flags;
-    std::vector< std::shared_ptr< Unit > > m_body;
 };
 
 #endif // METHODCSHARP_H

@@ -11,52 +11,51 @@
 #include "classjava.h"
 #include "methodjava.h"
 #include "printoperatorjava.h"
-
+#include "classcpp.h"
+#include "methodcpp.h"
+#include "printoperatorcpp.h"
 
 #include <QDebug>
 
-std::string generateProgram() {
-    ClassUnit myClass( "MyClass" );
-    myClass.add(
-        std::make_shared< MethodUnit >( "testFunc1", "void", 0 ),
-        ClassUnit::PUBLIC
-        );
-    myClass.add(
-        std::make_shared< MethodUnit >( "testFunc2", "void", MethodUnit::STATIC ),
-        ClassUnit::PRIVATE
-        );
-    myClass.add(
-        std::make_shared< MethodUnit >( "testFunc3", "void", MethodUnit::VIRTUAL | MethodUnit::CONST ),
-        ClassUnit::PUBLIC
-        );
-    auto method = std::make_shared< MethodUnit >( "testFunc4", "void",
-                                               MethodUnit::STATIC );
-    method->add( std::make_shared< PrintOperatorUnit >( R"(Hello, world!\n)" ) );
-    myClass.add( method, ClassUnit::PROTECTED );
+std::string generateCpp() {
+    ClassCpp myClass( "MyACsdfdaaasdss" );
+
+    auto myClass2= std::make_shared< ClassCpp >( "MyCAlaasasdsa1ss", ClassCpp::PUBLIC);
+    myClass.add(myClass2);
+
+    auto method1 = std::make_shared< MethodCpp >("testfunAc1", "real", MethodCpp::VIRTUAL | MethodCpp::PROTECTED);
+
+    myClass2->add(method1);
+
+    method1->add(std::make_shared< PrintOperatorCpp >( "asdsa2342d" ));
+
+//    myClass.add(
+//        std::make_shared< MethodCpp >( "testFunc1", "void", 0 ),
+//        ClassCpp::PUBLIC
+//        );
+//    myClass.add(
+//        std::make_shared< MethodCpp >( "testFunc2", "void", MethodCpp::STATIC | ClassCpp::PRIVATE)
+//        );
+//    myClass.add(
+//        std::make_shared< MethodCpp >( "testFunc3", "void", MethodCpp::VIRTUAL | MethodCpp::CONST ),
+//        ClassCpp::PUBLIC
+//        );
+//    auto method = std::make_shared< MethodCpp >( "testFunc4", "void",
+//                                               MethodCpp::STATIC );
+//    method->add( std::make_shared< PrintOperatorCpp >( R"(Hello, world!\n)" ) );
+//    myClass.add( method, ClassCpp::PROTECTED );
     return myClass.compile();
 }
 
 std::string generateCSharp() {
 
-    //ClassCSharp myClass( "MyClass", ClassCSharp::INTERNAL);
+    auto myClass = std::make_shared< ClassCSharp >( "MyClasass", ClassCSharp::INTERNAL);
 
-    //myClass.add();
+    auto method = std::make_shared< MethodCSharp >( "testFunc2", "void", ClassCSharp::PRIVATE_PROTECTED );
 
-    auto myClass = std::make_shared< ClassCSharp >( "MyClass", ClassCSharp::INTERNAL);
-
-    auto myClass3 = std::make_shared< ClassCSharp >( "MyClass3", ClassCSharp::PUBLIC);
-
-    auto method = std::make_shared< MethodCSharp >( "testFunc2", "void", 0 );
-
-    method->add(std::make_shared< PrintOperatorUnitCSharp >( R"(Hello, world!\n)" ));
-
-    method->add(myClass3);
-
-    method->add(std::make_shared< MethodCSharp >( "testFunc3", "real", 4 ));
+    method->add(std::make_shared< PrintOperatorCSharp >( "asdasd" ));
 
     myClass->add(method);
-
-
 
     return myClass->compile();
 }
@@ -64,21 +63,14 @@ std::string generateCSharp() {
 
 
 std::string generateJAVA() {
-    auto myClass = std::make_shared< ClassJAVA >( "MyClass", ClassJAVA::PRIVATE);
+    auto myClass = std::make_shared< ClassJAVA >( "MyCla1ss", ClassJAVA::FINAL | ClassJAVA::PUBLIC);
 
     auto method1 = std::make_shared< MethodJAVA >("testfucn1", "long",
-                                                MethodJAVA::PROTECTED, MethodJAVA::ABSTRACT, MethodJAVA::STATIC);
+                               MethodJAVA::PROTECTED | MethodJAVA::ABSTRACT | MethodJAVA::STATIC);
 
+    method1->add(std::make_shared< PrintOperatorJAVA >( "SADFASDF" ));
 
-    auto myClass2 = std::make_shared< ClassJAVA >("MyClass2");
-
-    myClass2->add(method1);
-
-
-
-    method1->add(std::make_shared< PrintOperatorUnitCSharp >( R"(Hello, world!\n)" ));
-
-    myClass->add(myClass2);
+    myClass->add(method1);
 
     return myClass->compile();
 }
@@ -90,6 +82,6 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 
 
-    std::cout << generateJAVA() << std::endl;
+    std::cout << generateCpp() << std::endl;
     return a.exec();
 }

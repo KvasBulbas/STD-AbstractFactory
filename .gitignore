@@ -22,3 +22,9 @@ AbstractFactory/methodjava.cpp
 AbstractFactory/printoperatorjava.cpp
 
 AbstractFactory/printoperatorunitcsharp.cpp
+
+AbstractFactory/classcpp.cpp
+
+AbstractFactory/methodcpp.cpp
+
+AbstractFactory/printoperatorcpp.cpp
