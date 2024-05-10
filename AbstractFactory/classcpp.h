@@ -7,14 +7,10 @@
 
 class ClassCpp: public ClassUnit
 {
-
 public:
-
-    std::vector< bool > ACCESS_MODIFIERS = {0, 0, 0};
 
     explicit ClassCpp( const std::string& name, Flags modifier = PRIVATE )
     {
-
         m_name = name;
 
         if(!(modifier & PUBLIC || modifier & PROTECTED || modifier & PRIVATE ))
@@ -23,8 +19,8 @@ public:
         m_modifier =  modifier;
     }
 
-    void add( const std::shared_ptr< Unit >& unit ) override{
-
+    void add( const std::shared_ptr< Unit >& unit ) override
+    {
 
         if(unit->getModifier() & PUBLIC)
             ACCESS_MODIFIERS[0] = true;
@@ -40,7 +36,6 @@ public:
     {
         std::string result = generateShift( level ) + "class " + m_name + " {\n";
 
-
         if(ACCESS_MODIFIERS[0])
         {
             result += generateShift( level ) + "public:\n";
@@ -50,7 +45,6 @@ public:
             }
         }
 
-
         if(ACCESS_MODIFIERS[1])
         {
             result += generateShift( level ) + "protected:\n";
@@ -59,7 +53,6 @@ public:
                 result += b->compile( level + 1 );
             }
         }
-
 
         if(ACCESS_MODIFIERS[2])
         {
@@ -75,6 +68,8 @@ public:
         return result;
     }
 
+private:
+    std::vector< bool > ACCESS_MODIFIERS = {0, 0, 0};
 
 };
 

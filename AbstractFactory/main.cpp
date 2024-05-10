@@ -149,12 +149,13 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 
 
-    //std::cout << generateCpp() << std::endl;
+    std::cout << "C++ code:\n" <<generateCpp() << std::endl;
 
-    //std::cout << generateCSharp() << std::endl;
+    std::cout << "C# code:\n" << generateCSharp() << std::endl;
 
-    //std::cout << generateJAVA() << std::endl;
-    std::cout << generateCode(std::make_shared< FactoryCSharp >()) << std::endl;
+    std::cout << "JAVA code:\n" << generateJAVA() << std::endl;
+
+    //std::cout << generateCode(std::make_shared< FactoryCSharp >()) << std::endl;
 
     return a.exec();
 }
