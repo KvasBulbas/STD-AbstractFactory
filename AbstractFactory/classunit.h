@@ -9,8 +9,8 @@ class ClassUnit : public Unit
 
 public:
 
-    virtual void add( const std::shared_ptr< Unit >& unit ) override{
-
+    virtual void add( const std::shared_ptr< Unit >& unit ) override
+    {
          m_fields.push_back( unit );
     }
 

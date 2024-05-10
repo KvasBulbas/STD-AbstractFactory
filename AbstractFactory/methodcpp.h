@@ -9,7 +9,6 @@ class MethodCpp: public MethodUnit
 public:
     MethodCpp( const std::string& name, const std::string& returnType, Flags modifier = PRIVATE )
     {
-        qDebug() << "methodCpp: constructor";
         m_name = name;
         m_returnType = returnType;
 
@@ -19,7 +18,7 @@ public:
         m_modifier = modifier;
     }
 
-    std::string compile( unsigned int level = 0 ) const {
+    std::string compile( unsigned int level = 0 ) const override {
         std::string result = generateShift( level );
         if( m_modifier & STATIC ) {
             result += "static ";

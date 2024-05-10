@@ -10,7 +10,6 @@ class ClassCpp: public ClassUnit
 
 public:
 
-
     std::vector< bool > ACCESS_MODIFIERS = {0, 0, 0};
 
     explicit ClassCpp( const std::string& name, Flags modifier = PRIVATE )
@@ -24,9 +23,8 @@ public:
         m_modifier =  modifier;
     }
 
-    void add( const std::shared_ptr< Unit >& unit ) {
+    void add( const std::shared_ptr< Unit >& unit ) override{
 
-        qDebug() << unit->getModifier();
 
         if(unit->getModifier() & PUBLIC)
             ACCESS_MODIFIERS[0] = true;
@@ -38,7 +36,7 @@ public:
         m_fields.push_back( unit );
     }
 
-    std::string compile( unsigned int level = 0 ) const
+    std::string compile( unsigned int level = 0 )  const override
     {
         std::string result = generateShift( level ) + "class " + m_name + " {\n";
 

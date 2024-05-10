@@ -15,7 +15,7 @@ public:
         m_modifier =  modifier;
     }
 
-    std::string compile( unsigned int level = 0 ) const
+    std::string compile( unsigned int level = 0 ) const override
     {
         std::string result = generateShift( level );
 

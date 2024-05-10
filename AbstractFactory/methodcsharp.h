@@ -7,14 +7,20 @@
 class MethodCSharp : public MethodUnit
 {
 public:
-    MethodCSharp( const std::string& name, const std::string& returnType, Flags modifier )
+    MethodCSharp( const std::string& name, const std::string& returnType, Flags modifier = PRIVATE)
     {
+
         m_name = name;
         m_returnType = returnType;
+
+        if(!(modifier & PUBLIC || modifier & PROTECTED || modifier & FILE || modifier & INTERNAL ||
+             modifier & PRIVATE || modifier & PRIVATE_PROTECTED || modifier & PROTECTED_INTERNAL))
+            modifier = PRIVATE;
+
         m_modifier = modifier;
     }
 
-    std::string compile( unsigned int level = 0 ) const
+    std::string compile( unsigned int level = 0 ) const override
     {
         std::string result = generateShift( level );
 

@@ -9,7 +9,7 @@ public:
     {
         m_text = text;
     }
-    std::string compile( unsigned int level = 0 ) const {
+    std::string compile( unsigned int level = 0 ) const  override{
         return generateShift( level ) + "println( \"" + m_text + "\" );\n";
     }
 

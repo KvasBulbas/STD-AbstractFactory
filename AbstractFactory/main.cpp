@@ -14,48 +14,85 @@
 #include "classcpp.h"
 #include "methodcpp.h"
 #include "printoperatorcpp.h"
+#include "factories.h"
 
 #include <QDebug>
 
 std::string generateCpp() {
-    ClassCpp myClass( "MyACsdfdaaasdss" );
+    //ClassCpp myClass( "MyACsdfdaaasdss" );
 
-    auto myClass2= std::make_shared< ClassCpp >( "MyCAlaasasdsa1ss", ClassCpp::PUBLIC);
-    myClass.add(myClass2);
+    auto factoryCpp = std::make_shared< FactoryCpp >();
 
-    auto method1 = std::make_shared< MethodCpp >("testfunAc1", "real", MethodCpp::VIRTUAL | MethodCpp::PROTECTED);
+
+
+    auto myClass2 = factoryCpp->createClassUnit("MyClass2", ClassCpp::PUBLIC);
+    auto myClass = factoryCpp->createClassUnit("MyClass1");
+    auto method1 = factoryCpp->createMethodUnit("testfunc1", "real", MethodCpp::VIRTUAL | MethodCpp::PROTECTED);
+
+
+    auto method2 = factoryCpp->createMethodUnit("testfucn2", "real", MethodCpp::PROTECTED);
+
+
+    auto method3 = factoryCpp->createMethodUnit("testfunc3", "void");
+
+    auto myClass3 = factoryCpp->createClassUnit("MyClass3", ClassCpp::PROTECTED);
+
+    auto myClass4 = factoryCpp->createClassUnit("MyClass4", ClassCpp::PUBLIC);
+
+
+    method2->add(myClass3);
+
+
+    //auto myClass2= std::make_shared< ClassCpp >( "MyCAlaasasdsa1ss", ClassCpp::PUBLIC);
+    myClass->add(myClass2);
+
+    myClass2->add(myClass4);
+
+    //auto method1 = std::make_shared< MethodCpp >("testfunAc1", "real", MethodCpp::VIRTUAL | MethodCpp::PROTECTED);
 
     myClass2->add(method1);
+    myClass2->add(method2);
+    myClass2->add(method3);
 
-    method1->add(std::make_shared< PrintOperatorCpp >( "asdsa2342d" ));
 
-//    myClass.add(
-//        std::make_shared< MethodCpp >( "testFunc1", "void", 0 ),
-//        ClassCpp::PUBLIC
-//        );
-//    myClass.add(
-//        std::make_shared< MethodCpp >( "testFunc2", "void", MethodCpp::STATIC | ClassCpp::PRIVATE)
-//        );
-//    myClass.add(
-//        std::make_shared< MethodCpp >( "testFunc3", "void", MethodCpp::VIRTUAL | MethodCpp::CONST ),
-//        ClassCpp::PUBLIC
-//        );
-//    auto method = std::make_shared< MethodCpp >( "testFunc4", "void",
-//                                               MethodCpp::STATIC );
-//    method->add( std::make_shared< PrintOperatorCpp >( R"(Hello, world!\n)" ) );
-//    myClass.add( method, ClassCpp::PROTECTED );
-    return myClass.compile();
+    return myClass->compile();
 }
 
-std::string generateCSharp() {
+std::string generateCSharp()
+{
 
-    auto myClass = std::make_shared< ClassCSharp >( "MyClasass", ClassCSharp::INTERNAL);
 
-    auto method = std::make_shared< MethodCSharp >( "testFunc2", "void", ClassCSharp::PRIVATE_PROTECTED );
+    auto factorySharp = std::make_shared< FactoryCSharp >();
 
-    method->add(std::make_shared< PrintOperatorCSharp >( "asdasd" ));
+    //factorySharp->createClassUnit();
+    //factorySharp->createMethodUnit();
+    //factorySharp->createPrintOperatorUnit();
 
-    myClass->add(method);
+
+    auto myClass = factorySharp->createClassUnit( "MyClass");
+
+    auto myClass2 = factorySharp->createClassUnit( "MyClass2", ClassCSharp::FILE);
+
+
+    auto method1 = factorySharp->createMethodUnit( "testFunc1", "void", ClassCSharp::PRIVATE_PROTECTED );
+
+    auto method2 = factorySharp->createMethodUnit( "testFunc2", "real", ClassCSharp::PROTECTED_INTERNAL);
+
+    auto method3 = factorySharp->createMethodUnit( "testFunc3", "int", ClassCSharp::PROTECTED_INTERNAL);
+
+    auto operator1 = factorySharp->createPrintOperatorUnit("Hello world!");
+
+
+    myClass->add(method1);
+
+    myClass->add(myClass2);
+
+    myClass2->add(method2);
+
+    myClass->add(method3);
+
+
+    method2->add(operator1);
 
     return myClass->compile();
 }
@@ -63,18 +100,48 @@ std::string generateCSharp() {
 
 
 std::string generateJAVA() {
-    auto myClass = std::make_shared< ClassJAVA >( "MyCla1ss", ClassJAVA::FINAL | ClassJAVA::PUBLIC);
 
-    auto method1 = std::make_shared< MethodJAVA >("testfucn1", "long",
+    auto factoryJAVA = std::make_shared< FactoryJAVA >();
+
+    //factoryJAVA->createClassUnit();
+    //factoryJAVA->createMethodUnit();
+    //factoryJAVA->createPrintOperatorUnit();
+
+    auto myClass = factoryJAVA->createClassUnit( "MyCla1ss", ClassJAVA::FILE | ClassJAVA::PUBLIC);
+
+    auto method1 = factoryJAVA->createMethodUnit("testfunc1", "long",
                                MethodJAVA::PROTECTED | MethodJAVA::ABSTRACT | MethodJAVA::STATIC);
 
-    method1->add(std::make_shared< PrintOperatorJAVA >( "SADFASDF" ));
+
+    auto method2 = factoryJAVA->createMethodUnit("testfunc2", "void",
+                                                 MethodJAVA::INTERNAL);
+
+    method1->add(factoryJAVA->createPrintOperatorUnit( "Hello world!" ));
 
     myClass->add(method1);
+
+    myClass->add(method2);
 
     return myClass->compile();
 }
 
+
+std::string generateCode(const std::shared_ptr<Factory> &factory)
+{
+    auto myClass = factory->createClassUnit( "MyCla1ss", ClassJAVA::PUBLIC);
+
+    auto method1 = factory->createMethodUnit("testfunc1", "long", ClassUnit::PROTECTED);
+
+    auto method2 = factory->createMethodUnit("testfunc2", "int", ClassUnit::PUBLIC);
+
+    myClass->add(method1);
+
+    myClass->add(method2);
+
+     method1->add(factory->createPrintOperatorUnit( "Hello world!" ));
+
+    return myClass->compile();
+}
 
 
 int main(int argc, char *argv[])
@@ -82,6 +149,12 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 
 
-    std::cout << generateCpp() << std::endl;
+    //std::cout << generateCpp() << std::endl;
+
+    //std::cout << generateCSharp() << std::endl;
+
+    //std::cout << generateJAVA() << std::endl;
+    std::cout << generateCode(std::make_shared< FactoryCSharp >()) << std::endl;
+
     return a.exec();
 }

@@ -8,14 +8,18 @@ class MethodJAVA : public MethodUnit
 {
 
 public:
-    MethodJAVA( const std::string& name, const std::string& returnType, Flags modifier )
+    MethodJAVA( const std::string& name, const std::string& returnType, Flags modifier = PUBLIC )
     {
         m_name = name;
         m_returnType = returnType;
+
+        if(!(modifier & PUBLIC || modifier & FILE || modifier & INTERNAL))
+            modifier = modifier | PUBLIC;
+
         m_modifier = modifier;
     }
 
-    std::string compile( unsigned int level = 0 ) const
+    std::string compile( unsigned int level = 0 ) const override
     {
         std::string result = generateShift( level );
 
