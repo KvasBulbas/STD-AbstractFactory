@@ -21,7 +21,7 @@
 std::string generateCpp() {
     //ClassCpp myClass( "MyACsdfdaaasdss" );
 
-    auto factoryCpp = std::make_shared< FactoryCpp >();
+    auto factoryCpp = std::make_shared< FactoryJAVA >();
 
 
 
@@ -128,9 +128,9 @@ std::string generateJAVA() {
 
 std::string generateCode(const std::shared_ptr<Factory> &factory)
 {
-    auto myClass = factory->createClassUnit( "MyCla1ss", ClassJAVA::PUBLIC);
+    auto myClass = factory->createClassUnit( "MyCla1ss", ClassCpp::PUBLIC);
 
-    auto method1 = factory->createMethodUnit("testfunc1", "long", ClassUnit::PROTECTED);
+    auto method1 = factory->createMethodUnit("testfunc1", "long", ClassUnit::PROTECTED );
 
     auto method2 = factory->createMethodUnit("testfunc2", "int", ClassUnit::PUBLIC);
 
